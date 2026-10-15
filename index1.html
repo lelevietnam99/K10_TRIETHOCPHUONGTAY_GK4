@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề Cương Ôn Tập Triết Học Phương Tây</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --accent-color: #38bdf8;
+            --accent-purple: #c084fc;
+            --accent-gold: #fbbf24;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --highlight-bg: rgba(56, 189, 248, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            line-height: 1.7;
+            padding-bottom: 60px;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 15px 20px;
+        }
+
+        .header-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .search-box {
+            position: relative;
+            flex-grow: 1;
+            max-width: 320px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+        }
+
+        nav {
+            max-width: 1100px;
+            margin: 15px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-color);
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .question-card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .q-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .q-badge {
+            background: linear-gradient(135deg, var(--accent-color), #0284c7);
+            color: #0f172a;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .q-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.5;
+        }
+
+        .answer-content {
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+
+        .answer-content h3 {
+            color: var(--accent-gold);
+            margin: 18px 0 8px 0;
+            font-size: 1.05rem;
+        }
+
+        .answer-content h4 {
+            color: var(--accent-purple);
+            margin: 12px 0 6px 0;
+            font-size: 0.98rem;
+        }
+
+        .answer-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .answer-content li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+
+        .answer-content li::before {
+            content: "•";
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        .highlight {
+            background: var(--highlight-bg);
+            color: var(--accent-color);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .quote-box {
+            background: rgba(192, 132, 252, 0.1);
+            border-left: 4px solid var(--accent-purple);
+            padding: 12px 16px;
+            margin: 12px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn:hover {
+            color: #fff;
+            border-color: #fff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 640px) {
+            .question-card {
+                padding: 18px;
+            }
+            .q-header {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <h1>🏛️ ÔN THI TRIẾT HỌC PHƯƠNG TÂY</h1>
+            <div class="search-box">
+                <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Tìm từ khóa (Socrates, Plato...)...">
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#q1" class="nav-btn">Câu 1: Khái niệm & Philosophia</a>
+        <a href="#q2" class="nav-btn">Câu 2: Hy Lạp - La Mã cổ đại</a>
+        <a href="#q3" class="nav-btn">Câu 3: Triết học Trung cổ</a>
+        <a href="#q4" class="nav-btn">Câu 4: Dụ ngôn Cái hang</a>
+        <a href="#q5" class="nav-btn">Câu 5: 4 Phương pháp Socrates</a>
+        <a href="#q6" class="nav-btn">Câu 6: Đóng góp Aristotle</a>
+    </nav>
+
+    <main>
+        <!-- CÂU 01 -->
+        <article class="question-card" id="q1">
+            <div class="q-header">
+                <span class="q-badge">CÂU 01</span>
+                <h2 class="q-title">Triết học là gì? Tư duy triết học đến với loài người như thế nào? Trình bày ngữ nguyên của từ triết học "Philosophia".</h2>
+            </div>
+            <div class="answer-content">
+                <h3>1. Triết học là gì?</h3>
+                <ul>
+                    <li><span class="highlight">Định nghĩa:</span> Bộ môn nghiên cứu những vấn đề chung và cơ bản nhất của con người và thế giới, tìm hiểu vị trí, vai trò của con người. Các đối tượng cốt lõi: chân lý, sự tồn tại, tri thức, giá trị, quy luật, ý thức và ngôn ngữ.</li>
+                    <li><span class="highlight">Khác biệt với khoa học cụ thể:</span> Khoa học cụ thể đi sâu vào lĩnh vực riêng biệt; Triết học hướng tới sự khái quát, hệ thống, nền tảng và đề cao tính phê phán, lập luận duy lý.</li>
+                </ul>
+
+                <h3>2. Tư duy triết học đến với loài người như thế nào?</h3>
+                <ul>
+                    <li><span class="highlight">Giai đoạn sơ khai (Huyền thoại / Thần thoại):</span> Dùng câu chuyện thần linh lý giải tự nhiên, con người. Tư duy bị chi phối bởi trí tưởng tượng và cảm xúc.</li>
+                    <li><span class="highlight">Bước chuyển sang Triết học:</span> Đặt câu hỏi và giải thích bằng lý lẽ. Triết học ra đời là hình thức tư duy lý luận đầu tiên thay thế tư duy thần thoại.</li>
+                </ul>
+
+                <h3>3. Ngữ nguyên học của từ "Philosophia"</h3>
+                <ul>
+                    <li>Bắt nguồn từ tiếng Hy Lạp <span class="highlight">Philosophia (φιλοσοφία)</span>:
+                        <ul>
+                            <li><em>Philo (φιλία):</em> Tình yêu, yêu mến, khát vọng.</li>
+                            <li><em>Sophia (σοφία):</em> Sự thông thái, trí tuệ.</li>
+                        </ul>
+                    </li>
+                    <li><span class="highlight">Ý nghĩa:</span> Nghĩa hẹp là "yêu mến sự thông thái"; nghĩa rộng là khát vọng vươn tới chân lý phổ quát.</li>
+                    <li><span class="highlight">Phân biệt của Pythagoras:</span> Triết gia (<em>philosophos</em>) là "bạn của trí tuệ" - khao khát tìm kiếm chân lý, khác với "nhà bác học" (<em>sophos</em>) tự nhận đã nắm trọn chân lý.</li>
+                </ul>
+            </div>
+            <button class="toggle-btn" onclick="toggleAnswer(this)">Ẩn / Hiện chi tiết</button>
+        </article>
+
+        <!-- CÂU 02 -->
+        <article class="question-card" id="q2">
+            <div class="q-header">
+                <span class="q-badge">CÂU 02</span>
+                <h2 class="q-title">Sơ lược quan điểm triết học của các triết gia tiêu biểu thời Hy Lạp – La Mã cổ đại và các đặc điểm nổi bật.</h2>
+            </div>
+            <div class="answer-content">
+                <h3>A. Các thời kỳ triết học tiêu biểu</h3>
+                <h4>1. Thời kỳ Tiền Socrates (TK VI - V TCN) - Triết học Tự nhiên</h4>
+                <ul>
+                    <li><span class="highlight">Trường phái Miletus:</span> Thales (bản nguyên là Nước), Anaximander (Apeiron - chất vô định), Anaximenes (Khí).</li>
+                    <li><span class="highlight">Trường phái Pythagoras:</span> Bản nguyên vũ trụ là Con số ("Cái gì đo được thì tồn tại").</li>
+                    <li><span class="highlight">Heraclitus vs Trường phái Elea:</span>
+                        <ul>
+                            <li><em>Heraclitus:</em> Bản nguyên là Lửa, vận hành theo Logos. Luận điểm "Không ai tắm hai lần trên cùng một dòng sông".</li>
+                            <li><em>Elea (Parmenides, Zenon):</em> Phủ nhận sự vận động biến dịch; Zenon dùng các nghịch lý (Achilles và con rùa) để chứng minh sự bất biến.</li>
+                        </ul>
+                    </li>
+                    <li><span class="highlight">Nguyên tử luận:</span> Democritus & Leucippos - Bản nguyên vạn vật là các Nguyên tử chuyển động trong Hư không.</li>
+                </ul>
+
+                <h4>2. Thời kỳ Cực thịnh (TK V - IV TCN) - Bước ngoặt Nhân bản</h4>
+                <ul>
+                    <li><span class="highlight">Socrates:</span> Trọng tâm chuyển sang Con người & Đạo đức. Nổi tiếng với câu: <em>"Tôi biết một điều là tôi không biết gì hết"</em> và <em>"Hãy tự biết chính mình"</em>.</li>
+                    <li><span class="highlight">Plato:</span> Duy tâm khách quan. Học thuyết Ý niệm (Ý niệm có trước, vật chất có sau), Triết thuyết Cái hang, mô hình Nhà nước Cộng hòa do triết gia lãnh đạo.</li>
+                    <li><span class="highlight">Aristotle:</span> Bộ óc bách khoa toàn thư. Sáng tạo Tam đoạn luận, phương pháp quy nạp/diễn dịch, đề cao nguyên tắc Trung dung.</li>
+                </ul>
+
+                <h4>3. Thời kỳ Hy Lạp hóa & Suy tàn (TK III TCN - IV SCN)</h4>
+                <ul>
+                    <li>Chủ nghĩa Khoái lạc (Epicurus - sống thanh tịnh, an lạc), Chủ nghĩa Khắc kỷ (Zeno), Chủ nghĩa Hoài nghi (Pyrrho).</li>
+                </ul>
+
+                <h3>B. 5 Đặc điểm nổi bật</h3>
+                <ul>
+                    <li>1. Tính chất phác, sơ khai (gắn với thần thoại nhưng nảy mầm khoa học).</li>
+                    <li>2. Tính bao trùm lý luận ("khoa học của các khoa học").</li>
+                    <li>3. Tính đa dạng và phân cực (đấu tranh duy vật vs duy tâm, biện chứng vs siêu hình).</li>
+                    <li>4. Tính biện chứng tự phát sơ khai.</li>
+                    <li>5. Tính nhân bản sâu sắc (đề cao vị trí con người và đạo đức).</li>
+                </ul>
+            </div>
+            <button class="toggle-btn" onclick="toggleAnswer(this)">Ẩn / Hiện chi tiết</button>
+        </article>
+
+        <!-- CÂU 03 -->
+        <article class="question-card" id="q3">
+            <div class="q-header">
+                <span class="q-badge">CÂU 03</span>
+                <h2 class="q-title">Sự ra đời và đặc điểm triết học thời Trung cổ qua Giáo phụ học và triết học Kinh viện.</h2>
+            </div>
+            <div class="answer-content">
+                <h3>1. Bối cảnh ra đời</h3>
+                <ul>
+                    <li>Kéo dài khoảng 1000 năm (TK V – XV/XVI) tại Tây Âu dưới chế độ phong kiến.</li>
+                    <li>Kitô giáo trở thành quốc giáo (từ năm 380). Giáo hội nắm quyền lực tuyệt đối, biến triết học thành <span class="highlight">"đầy tớ của thần học"</span>.</li>
+                </ul>
+
+                <h3>2. Hai giai đoạn phát triển chính</h3>
+                <h4>a. Giai đoạn Giáo phụ học (TK I - V)</h4>
+                <ul>
+                    <li>Dùng triết học Plato để bảo vệ và giải thích đức tin Kitô giáo. Nhân vật tiêu biểu: <span class="highlight">Thánh Augustine</span>.</li>
+                </ul>
+
+                <h4>b. Giai đoạn Triết học Kinh viện (TK IX - XV)</h4>
+                <ul>
+                    <li><span class="highlight">Thời kỳ Sơ khai (TK IX - XII):</span> Cuộc tranh luận về Cái phổ quát giữa <em>Duy thực luận</em> (Realism - Anselm) và <em>Duy danh luận</em> (Nominalism).</li>
+                    <li><span class="highlight">Thời kỳ Cực thịnh (TK XII - XIII):</span> Tiếp nhận triết học Aristotle. <span class="highlight">Thomas Aquinas</span> dung hòa Đức tin Kitô giáo với Lý trí Aristotle, đưa ra 5 luận chứng chứng minh sự hiện hữu của Thiên Chúa.</li>
+                    <li><span class="highlight">Thời kỳ Suy tàn (TK XIV - XV):</span> Rơi vào khủng hoảng giáo điều; các nhà tư tưởng như Roger Bacon, William Ockham chuyển sang khoa học thực nghiệm.</li>
+                </ul>
+            </div>
+            <button class="toggle-btn" onclick="toggleAnswer(this)">Ẩn / Hiện chi tiết</button>
+        </article>
+
+        <!-- CÂU 04 -->
+        <article class="question-card" id="q4">
+            <div class="q-header">
+                <span class="q-badge">CÂU 04</span>
+                <h2 class="q-title">Phân tích triết thuyết cái hang (Allegory of the Cave) của Plato.</h2>
+            </div>
+            <div class="answer-content">
+                <h3>1. Cấu trúc hai thế giới</h3>
+                <ul>
+                    <li><span class="highlight">Thế giới trong hang (Vật chất cảm tính):</span> Bóng đen trên vách hang là ảo ảnh, biến đổi. Tù nhân bị xiềng xích đại diện cho con người bị lệ thuộc vào giác quan.</li>
+                    <li><span class="highlight">Thế giới ngoài hang (Ý niệm chân thực):</span> Ánh sáng rực rỡ bên ngoài đại diện cho thế giới Ý niệm vĩnh hằng. Hình ảnh <span class="highlight">Mặt Trời</span> tượng trưng cho <strong>Ý niệm về cái Thiện</strong>.</li>
+                </ul>
+
+                <h3>2. Ý nghĩa Bản thể luận & Sứ mệnh Triết gia</h3>
+                <ul>
+                    <li>Giác quan chỉ mang lại nhận thức cảm tính mơ hồ; chỉ có <strong>Lý tính thuần túy</strong> mới giúp tiếp cận chân lý.</li>
+                    <li>Nhà triết học khi thấy ánh sáng có sứ mệnh quay lại hang tối khai mở cho người khác, dù có thể bị thù ghét hay hãm hại.</li>
+                </ul>
+
+                <h3>3. Thần học Trung cổ (Thánh Augustine) vận dụng Triết thuyết Cái hang</h3>
+                <ul>
+                    <li>1. Đồng nhất "Thế giới Ý niệm" với "Tâm trí của Thiên Chúa".</li>
+                    <li>2. Cấu trúc "Trong hang / Ngoài hang" tương ứng với "Trần gian cõi tạm / Thiên đàng vĩnh hằng".</li>
+                    <li>3. "Ý niệm cái Thiện" chính là Thiên Chúa.</li>
+                    <li>4. Thuyết "Khai sáng tâm linh": Con người nhận thức chân lý nhờ sự soi sáng ban ơn của Thiên Chúa.</li>
+                    <li>5. Thân xác là gông cờm tạm thời; linh hồn bất tử giải thoát về với cõi tâm linh nguyên thủy.</li>
+                </ul>
+            </div>
+            <button class="toggle-btn" onclick="toggleAnswer(this)">Ẩn / Hiện chi tiết</button>
+        </article>
+
+        <!-- CÂU 05 -->
+        <article class="question-card" id="q5">
+            <div class="q-header">
+                <span class="q-badge">CÂU 05</span>
+                <h2 class="q-title">4 Phương pháp giáo hóa (Phương pháp đối thoại) của Socrates.</h2>
+            </div>
+            <div class="answer-content">
+                <p>Phương pháp đối thoại của Socrates là nghệ thuật khơi gợi để đối phương tự nhận ra tri thức thông qua 4 bước:</p>
+
+                <div class="quote-box">
+                    <strong>1. Châm biếm (Mỉa mai):</strong> Vờ khiêm tốn ngây ngô đặt câu hỏi vặn vẹo để chỉ ra mâu thuẫn trong lập luận của đối phương, buộc họ thừa nhận sự thiếu sót của mình. <em>(VD: Đặt câu hỏi cho Euthyphro về lòng thành kính).</em>
+                </div>
+
+                <div class="quote-box">
+                    <strong>2. Trợ sản (Đỡ đẻ):</strong> Đặt các câu hỏi gợi mở từng bước để người đối thoại tự "sinh đẻ" ra chân lý. <em>(VD: Dẫn dắt Euthydemus nhận ra việc nói dối để cứu người là hành vi công bằng).</em>
+                </div>
+
+                <div class="quote-box">
+                    <strong>3. Quy nạp:</strong> Gom các ví dụ thực tế cụ thể, sinh động hằng ngày để dẫn dắt đối phương đúc kết lên nguyên lý chung.
+                </div>
+
+                <div class="quote-box">
+                    <strong>4. Định nghĩa:</strong> Chốt lại bản chất chung nhất, vạch ra khái niệm chính xác, biến nhận thức cảm tính thành tri thức lý tính có hệ thống.
+                </div>
+            </div>
+            <button class="toggle-btn" onclick="toggleAnswer(this)">Ẩn / Hiện chi tiết</button>
+        </article>
+
+        <!-- CÂU 06 -->
+        <article class="question-card" id="q6">
+            <div class="q-header">
+                <span class="q-badge">CÂU 06</span>
+                <h2 class="q-title">Những đóng góp của triết gia Aristotle đối với nhân loại.</h2>
+            </div>
+            <div class="answer-content">
+                <h3>1. Nền móng cho cấu trúc khoa học hiện đại</h3>
+                <ul>
+                    <li><span class="highlight">Khai sinh Logic học:</span> Hệ thống hóa quy luật tư duy, sáng tạo ra <strong>Tam đoạn luận</strong>.</li>
+                    <li><span class="highlight">Phân loại Khoa học:</span> Chia tri thức thành các ngành: Vật lý, Sinh học, Đạo đức học, Chính trị học, Siêu hình học.</li>
+                    <li><span class="highlight">Phương pháp Thực nghiệm:</span> Thu thập mẫu vật, quan sát và giải phẫu thực tế.</li>
+                </ul>
+
+                <h3>2. Quan điểm Triết học Cốt lõi</h3>
+                <ul>
+                    <li><span class="highlight">Chủ nghĩa Hiện thực (Nhị nguyên):</span> Phản đối thế giới ý niệm tách rời của Plato. Khẳng định nhận thức phải xuất phát từ kinh nghiệm cảm tính rồi mới dùng lý tính đúc kết.</li>
+                    <li>Nổi tiếng với câu nói: <em>"Plato là thầy, nhưng chân lý còn quý hơn thầy"</em>.</li>
+                </ul>
+
+                <h3>3. Giáo hội Kitô giáo (Thomas Aquinas) vận dụng Aristotle</h3>
+                <ul>
+                    <li>Dùng Logic để chứng minh Thiên Chúa: Luận chứng về <em>"Động cơ đầu tiên"</em> và <em>"Nguyên nhân đầu tiên"</em>.</li>
+                    <li>Dùng <em>Thuyết Mục Đích</em> để giải thích trật tự vũ trụ do Chúa thiết kế.</li>
+                    <li>Tiếp thu "Con đường Trung đạo" để nâng cấp Đạo đức học Kitô giáo (bổ sung Đức Tin, Đức Cậy, Đức Mến).</li>
+                </ul>
+            </div>
+            <button class="toggle-btn" onclick="toggleAnswer(this)">Ẩn / Hiện chi tiết</button>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Đề Cương Ôn Tập Triết Học Phương Tây - Chúc bạn ôn tập tốt và đạt kết quả cao!</p>
+    </footer>
+
+    <script>
+        function toggleAnswer(btn) {
+            const content = btn.previousElementSibling;
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                btn.innerText = "Ẩn / Hiện chi tiết";
+            } else {
+                content.classList.add('hidden');
+                btn.innerText = "Xem đáp án";
+            }
+        }
+
+        function searchFunction() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('question-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                let cardText = cards[i].innerText.toLowerCase();
+                if (cardText.includes(input)) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

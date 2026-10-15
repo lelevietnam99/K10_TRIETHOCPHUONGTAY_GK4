@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Ôn Thi Triết Học Phương Tây 3.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --card-bg: rgba(21, 30, 49, 0.85);
+            --border-color: rgba(255, 255, 255, 0.12);
+            --cyan: #38bdf8;
+            --purple: #c084fc;
+            --amber: #fbbf24;
+            --emerald: #34d399;
+            --rose: #fb7185;
+            --text-light: #f8fafc;
+            --text-sub: #94a3b8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #090d16 80%);
+            background-attachment: fixed;
+            color: var(--text-light);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        /* HEADER & NAV */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(9, 13, 22, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px;
+        }
+
+        .header-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--cyan), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-sub);
+            padding: 7px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--cyan);
+            color: #090d16;
+            font-weight: 700;
+        }
+
+        .progress-bar-wrap {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--cyan), var(--emerald));
+            transition: width 0.3s ease;
+        }
+
+        /* MAIN LAYOUT */
+        .container {
+            max-width: 1100px;
+            margin: 25px auto;
+            padding: 0 15px;
+        }
+
+        .view-panel { display: none; }
+        .view-panel.active { display: block; }
+
+        /* VIEW 1: TIMELINE / MINDMAP */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--cyan);
+            transition: transform 0.2s;
+        }
+
+        .timeline-item:hover { transform: translateY(-3px); }
+
+        .time-tag {
+            font-size: 0.8rem;
+            color: var(--amber);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* VIEW 2: FLASHCARD */
+        .fc-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .fc-card {
+            width: 100%;
+            max-width: 680px;
+            height: 350px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .fc-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .fc-card.flipped .fc-inner { transform: rotateY(180deg); }
+
+        .fc-front, .fc-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .fc-back {
+            transform: rotateY(180deg);
+            text-align: left;
+            align-items: flex-start;
+            overflow-y: auto;
+            border-left: 5px solid var(--purple);
+        }
+
+        .btn-action {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            padding: 9px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            transition: 0.2s;
+        }
+
+        .btn-action:hover {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: var(--cyan);
+        }
+
+        /* VIEW 3: ACTIVE RECALL (TỰ LUẬN) */
+        .recall-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 25px;
+        }
+
+        .recall-input {
+            width: 100%;
+            min-height: 100px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            color: #fff;
+            font-family: inherit;
+            margin: 12px 0;
+            outline: none;
+            resize: vertical;
+        }
+
+        .recall-input:focus { border-color: var(--cyan); }
+
+        .answer-box {
+            display: none;
+            background: rgba(52, 211, 153, 0.08);
+            border-left: 4px solid var(--emerald);
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+            margin-top: 12px;
+            font-size: 0.92rem;
+        }
+
+        /* NOTES AREA */
+        .note-area {
+            width: 100%;
+            height: 60px;
+            background: rgba(251, 191, 36, 0.05);
+            border: 1px dashed rgba(251, 191, 36, 0.3);
+            border-radius: 8px;
+            padding: 8px;
+            color: var(--amber);
+            font-size: 0.85rem;
+            margin-top: 10px;
+            outline: none;
+        }
+
+        /* VIEW 4: QUIZ */
+        .quiz-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .opt-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px 16px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .opt-btn:hover { background: rgba(255, 255, 255, 0.1); }
+        .opt-btn.correct { background: rgba(52, 211, 153, 0.2) !important; border-color: var(--emerald) !important; color: var(--emerald); }
+        .opt-btn.wrong { background: rgba(251, 113, 133, 0.2) !important; border-color: var(--rose) !important; color: var(--rose); }
+
+        .badge-tag {
+            background: var(--cyan);
+            color: #090d16;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+        }
+
+        @media (max-width: 600px) {
+            .fc-card { height: 400px; }
+            .header-wrap { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-wrap">
+            <div class="logo">🏛️ TRIẾT HỌC PHƯƠNG TÂY 3.0</div>
+            <div class="nav-tabs">
+                <button class="tab-btn active" onclick="switchTab('map')">🗺️ Sơ Đồ Kiến Thức</button>
+                <button class="tab-btn" onclick="switchTab('flashcard')">🗂️ Flashcard (Ghi Nhớ)</button>
+                <button class="tab-btn" onclick="switchTab('recall')">✍️ Luyện Tự Luận</button>
+                <button class="tab-btn" onclick="switchTab('quiz')">🧩 Trắc Nghiệm</button>
+            </div>
+        </div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+    </header>
+
+    <div class="container">
+        <!-- 1. SƠ ĐỒ KIẾN THỨC -->
+        <section id="map" class="view-panel active">
+            <h2 style="margin-bottom: 20px; color: var(--cyan);">🗺️ Dòng Thời Gian & Tiến Trình Triết Học</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="time-tag">TK VI - V TCN • TIỀN SOCRATES</span>
+                    <h3 style="margin: 5px 0 10px 0;">1. Triết Học Tự Nhiên & Bản Nguyên (Arkhē)</h3>
+                    <p>• <strong>Thales:</strong> Nước | <strong>Anaximander:</strong> Apeiron | <strong>Anaximenes:</strong> Khí</p>
+                    <p>• <strong>Heraclitus:</strong> Lửa, Logos, Biến dịch ("Không ai tắm hai lần trên cùng một dòng sông").</p>
+                    <p>• <strong>Democritus:</strong> Thuyết Nguyên tử trong Hư không.</p>
+                </div>
+
+                <div class="timeline-item" style="border-left-color: var(--purple);">
+                    <span class="time-tag">TK V - IV TCN • THỜI KỲ CỰC THỊNH (ATHENS)</span>
+                    <h3 style="margin: 5px 0 10px 0;">2. Bước Ngoặt Nhân Bản & Hệ Thống Siêu Hình</h3>
+                    <p>• <strong>Socrates:</strong> Tập trung vào Con người & Đạo đức. 4 bước đối thoại: <em>Châm biếm, Trợ sản, Quy nạp, Định nghĩa</em>.</p>
+                    <p>• <strong>Plato:</strong> Thuyết Ý niệm (Duy tâm khách quan), <em>Dụ ngôn Cái hang</em>, Mô hình Nhà nước Cộng hòa.</p>
+                    <p>• <strong>Aristotle:</strong> Bộ óc bách khoa toàn thư, Khai sinh Logic học (Tam đoạn luận), Đạo đức Trung đạo, Nhị nguyên hiện thực.</p>
+                </div>
+
+                <div class="timeline-item" style="border-left-color: var(--amber);">
+                    <span class="time-tag">TK I - XV SCN • TRIẾT HỌC TRUNG CỔ TÂY ÂU</span>
+                    <h3 style="margin: 5px 0 10px 0;">3. Kitô Giáo & Triết Học "Đầy Tớ Thần Học"</h3>
+                    <p>• <strong>Giai đoạn Giáo phụ học (St. Augustine):</strong> Vận dụng Plato giải thích "Thế giới Ý niệm = Tâm trí Thiên Chúa", "Ngoài hang = Thiên đàng".</p>
+                    <p>• <strong>Giai đoạn Kinh viện (St. Thomas Aquinas):</strong> Vận dụng Aristotle, đưa ra 5 luận chứng chứng minh Chúa (Động cơ đầu tiên, Nguyên nhân đầu tiên...).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. FLASHCARD -->
+        <section id="flashcard" class="view-panel">
+            <div class="fc-wrapper">
+                <div class="fc-card" id="fcCard" onclick="flipFc()">
+                    <div class="fc-inner">
+                        <div class="fc-front">
+                            <span class="badge-tag" id="fcTag">CÂU 01</span>
+                            <h3 id="fcQ" style="margin-top: 15px;">Loading...</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-sub); margin-top: 20px;">💡 Bấm để lật xem đáp án cốt lõi</p>
+                        </div>
+                        <div class="fc-back">
+                            <span class="badge-tag" style="background: var(--purple); color: #fff;">ĐÁP ÁN NÒNG CỐT</span>
+                            <div id="fcA" style="margin-top: 15px; font-size: 0.93rem;">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; margin-top: 20px; align-items: center; flex-wrap: wrap; justify-content: center;">
+                    <button class="btn-action" onclick="prevFc()">⬅️ Câu trước</button>
+                    <span id="fcCount" style="color: var(--text-sub);">1 / 6</span>
+                    <button class="btn-action" onclick="nextFc()">Câu sau ➡️</button>
+                    <button class="btn-action" style="border-color: var(--amber);" onclick="shuffleFc()">🎲 Xáo trộn thẻ</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. LỰYỆN TỰ LUẬN (ACTIVE RECALL) -->
+        <section id="recall" class="view-panel">
+            <h2 style="margin-bottom: 15px; color: var(--cyan);">✍️ Luyện Gõ Dàn Ý & Tự Kiểm Tra Khả Năng Ghi Nhớ</h2>
+            <p style="color: var(--text-sub); margin-bottom: 20px;">Hãy tự nhẩm hoặc gõ lại ý chính vào ô bên dưới trước khi bấm "Xem đáp án đối chiếu".</p>
+
+            <div id="recallList"></div>
+        </section>
+
+        <!-- 4. TRẮC NGHIỆM -->
+        <section id="quiz" class="view-panel">
+            <div class="quiz-box">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <span id="qProgress" style="color: var(--cyan); font-weight: 600;">Câu 1/6</span>
+                    <span id="qScore" style="color: var(--amber); font-weight: 600;">Điểm: 0</span>
+                </div>
+                <h3 id="qText" style="margin-bottom: 18px;">Loading...</h3>
+                <div id="qOpts"></div>
+                <div id="qExp" style="display: none; margin-top: 15px; padding: 12px; background: rgba(251, 191, 36, 0.1); border-left: 3px solid var(--amber); font-size: 0.9rem;"></div>
+                <button class="btn-action" id="qNextBtn" style="width: 100%; margin-top: 20px; display: none;" onclick="nextQuestion()">Câu hỏi tiếp theo ➡️</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const data = [
+            {
+                tag: "CÂU 01",
+                q: "Triết học là gì? Ngữ nguyên từ 'Philosophia' & sự đóng góp của Pythagoras?",
+                a: "• <strong>Định nghĩa:</strong> Bộ môn nghiên cứu những vấn đề chung, cơ bản nhất của con người và thế giới.<br>• <strong>Philosophia:</strong> Từ tiếng Hy Lạp ghép bởi <em>Philo</em> (yêu mến) + <em>Sophia</em> (thông thái).<br>• <strong>Pythagoras:</strong> Sáng tạo thuật ngữ này, coi triết gia (<em>philosophos</em>) là 'bạn của trí tuệ' - khao khát tìm kiếm chân lý."
+            },
+            {
+                tag: "CÂU 02",
+                q: "Sơ lược quan điểm bản nguyên (Arkhē) Hy Lạp cổ đại và 5 đặc điểm nổi bật?",
+                a: "• <strong>Bản nguyên:</strong> Thales (Nước), Anaximander (Apeiron), Heraclitus (Lửa/Logos), Democritus (Nguyên tử/Hư không).<br>• <strong>5 Đặc điểm:</strong> 1. Tính chất phác sơ khai; 2. Tính bao trùm ('khoa học của các khoa học'); 3. Tính đa dạng & phân cực (duy vật vs duy tâm); 4. Tính biện chứng tự phát; 5. Tính nhân bản sâu sắc."
+            },
+            {
+                tag: "CÂU 03",
+                q: "Bối cảnh và đặc điểm của triết học Trung cổ (Giáo phụ học & Kinh viện)?",
+                a: "• <strong>Bối cảnh:</strong> Kéo dài ~1000 năm (TK V-XV). Triết học bị biến thành 'đầy tớ của thần học'.<br>• <strong>Giáo phụ học (St. Augustine):</strong> Vận dụng triết học Plato giải thích giáo lý.<br>• <strong>Kinh viện (St. Thomas Aquinas):</strong> Vận dụng Aristotle, lập luận 5 chứng minh Thiên Chúa và sự dung hòa Đức tin - Lý trí."
+            },
+            {
+                tag: "CÂU 04",
+                q: "Phân tích triết thuyết cái hang của Plato và sự vận dụng của Thần học Trung cổ?",
+                a: "• <strong>Cấu trúc 2 thế giới:</strong> Trong hang (bóng đen ảo ảnh, cảm tính) - Ngoài hang (Ý niệm chân thực, Mặt Trời = Ý niệm cái Thiện).<br>• <strong>Vận dụng của St. Augustine:</strong> Đồng nhất 'Thế giới Ý niệm' = 'Tâm trí Thiên Chúa'; 'Trong hang' = Trần gian cõi tạm; 'Ngoài hang' = Thiên đàng vĩnh cửu."
+            },
+            {
+                tag: "CÂU 05",
+                q: "Nêu 4 bước trong phương pháp đối thoại (giáo hóa) của Socrates?",
+                a: "1. <strong>Châm biếm (Mỉa mai):</strong> Chỉ ra mâu thuẫn để đối phương thấy sự thiếu sót.<br>2. <strong>Trợ sản (Đỡ đẻ):</strong> Đặt câu hỏi gợi mở để đối phương tự 'sinh' ra chân lý.<br>3. <strong>Quy nạp:</strong> Gom ví dụ thực tế cụ thể đúc kết thành nguyên lý chung.<br>4. <strong>Định nghĩa:</strong> Chốt lại bản chất khái niệm chính xác."
+            },
+            {
+                tag: "CÂU 06",
+                q: "Nêu các đóng góp của Aristotle và sự vận dụng của St. Thomas Aquinas?",
+                a: "• <strong>Đóng góp Aristotle:</strong> Khai sinh Logic học (Tam đoạn luận), Phân loại các ngành khoa học, Đạo đức Trung đạo, Nhị nguyên hiện thực.<br>• <strong>Vận dụng Aquinas:</strong> Dùng Logic Aristotle lập ra 5 chứng minh Thiên Chúa (Động cơ đầu tiên, Nguyên nhân đầu tiên...), Thuyết mục đích."
+            }
+        ];
+
+        const quizData = [
+            { q: "Từ 'Philosophia' có nghĩa nguyên thủy là gì?", opts: ["Sự thông thái tuyệt đối", "Tình yêu dành cho sự thông thái", "Khoa học vũ trụ", "Sự quy nạp lý tính"], correct: 1, exp: "Philo (Yêu mến) + Sophia (Sự thông thái)." },
+            { q: "Triết gia nào đưa ra luận điểm nổi tiếng 'Không ai tắm hai lần trên cùng một dòng sông'?", opts: ["Thales", "Parmenides", "Heraclitus", "Democritus"], correct: 2, exp: "Heraclitus coi bản nguyên là Lửa và vạn vật luôn biến dịch theo Logos." },
+            { q: "Trong Dụ ngôn Cái hang của Plato, 'Mặt Trời' tượng trưng cho điều gì?", opts: ["Giác quan con người", "Ý niệm về cái Thiện", "Thế giới vật chất", "Nghịch lý Zenon"], correct: 1, exp: "Mặt Trời đại diện cho Ý niệm về cái Thiện - nguồn cội sinh ra mọi chân lý." },
+            { q: "Nghệ thuật gợi mở để người đối diện tự tìm ra tri thức của Socrates có tên là gì?", opts: ["Châm biếm", "Trợ sản (Đỡ đẻ)", "Tam đoạn luận", "Duy danh luận"], correct: 1, exp: "Trợ sản là phương pháp đỡ đẻ cho các ý tưởng sẵn có trong tâm hồn." },
+            { q: "Ai là người dung hòa thành công Đức tin Kitô giáo với Triết học Aristotle?", opts: ["St. Augustine", "St. Thomas Aquinas", "Anselm", "William Ockham"], correct: 1, exp: "Thomas Aquinas nổi tiếng với 5 luận chứng chứng minh sự tồn tại của Chúa dựa trên Aristotle." },
+            { q: "Đâu KHÔNG PHẢI là một đặc điểm của Triết học Hy Lạp - La Mã cổ đại?", opts: ["Tính bao trùm ('khoa học của các khoa học')", "Tính nhân bản sâu sắc", "Sử dụng hoàn toàn phương pháp thực nghiệm hiện đại", "Tính biện chứng tự phát sơ khai"], correct: 2, exp: "Triết học cổ đại mang tính chất phác sơ khai, chưa có thực nghiệm hiện đại hoàn chỉnh." }
+        ];
+
+        // TAB SWITCHING & PROGRESS
+        function switchTab(tabId) {
+            document.querySelectorAll('.view-panel').forEach(e => e.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+
+            let p = 25;
+            if (tabId === 'flashcard') p = 50;
+            if (tabId === 'recall') p = 75;
+            if (tabId === 'quiz') p = 100;
+            document.getElementById('progressBar').style.width = p + '%';
+        }
+
+        // FLASHCARD LOGIC
+        let fcIdx = 0;
+        let fcList = [...data];
+
+        function renderFc() {
+            document.getElementById('fcCard').classList.remove('flipped');
+            setTimeout(() => {
+                document.getElementById('fcTag').innerText = fcList[fcIdx].tag;
+                document.getElementById('fcQ').innerText = fcList[fcIdx].q;
+                document.getElementById('fcA').innerHTML = fcList[fcIdx].a;
+                document.getElementById('fcCount').innerText = `${fcIdx + 1} / ${fcList.length}`;
+            }, 150);
+        }
+
+        function flipFc() { document.getElementById('fcCard').classList.toggle('flipped'); }
+        function nextFc() { fcIdx = (fcIdx + 1) % fcList.length; renderFc(); }
+        function prevFc() { fcIdx = (fcIdx - 1 + fcList.length) % fcList.length; renderFc(); }
+        function shuffleFc() { fcList.sort(() => Math.random() - 0.5); fcIdx = 0; renderFc(); }
+
+        // RECALL LOGIC
+        function renderRecall() {
+            const container = document.getElementById('recallList');
+            container.innerHTML = data.map((item, idx) => `
+                <div class="recall-card">
+                    <h3><span class="badge-tag">${item.tag}</span> ${item.q}</h3>
+                    <textarea class="recall-input" id="input_${idx}" placeholder="Nhập nhanh từ khóa / dàn ý câu trả lời của bạn ở đây..."></textarea>
+                    <button class="btn-action" onclick="toggleAnswer(${idx})">👁️ Xem đáp án đối chiếu</button>
+                    <div class="answer-box" id="ans_${idx}">${item.a}</div>
+                    <textarea class="note-area" placeholder="📌 Ghi chú lưu ý riêng cho câu này (ví dụ: mẹo nhớ, lỗi hay sai...)..." onkeyup="saveNote(${idx}, this.value)" id="note_${idx}"></textarea>
+                </div>
+            `).join('');
+
+            // Load saved notes
+            data.forEach((_, idx) => {
+                const saved = localStorage.getItem(`triet_note_${idx}`);
+                if (saved) document.getElementById(`note_${idx}`).value = saved;
+            });
+        }
+
+        function toggleAnswer(idx) {
+            const box = document.getElementById(`ans_${idx}`);
+            box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function saveNote(idx, val) {
+            localStorage.setItem(`triet_note_${idx}`, val);
+        }
+
+        // QUIZ LOGIC
+        let qIdx = 0, score = 0;
+        function loadQuiz() {
+            const q = quizData[qIdx];
+            document.getElementById('qProgress').innerText = `Câu ${qIdx + 1}/${quizData.length}`;
+            document.getElementById('qText').innerText = q.q;
+            document.getElementById('qExp').style.display = 'none';
+            document.getElementById('qNextBtn').style.display = 'none';
+
+            document.getElementById('qOpts').innerHTML = q.opts.map((opt, i) => `
+                <button class="opt-btn" onclick="checkQ(${i})">${String.fromCharCode(65+i)}. ${opt}</button>
+            `).join('');
+        }
+
+        function checkQ(selected) {
+            const q = quizData[qIdx];
+            const btns = document.querySelectorAll('.opt-btn');
+            btns.forEach((btn, i) => {
+                btn.disabled = true;
+                if (i === q.correct) btn.classList.add('correct');
+                if (i === selected && i !== q.correct) btn.classList.add('wrong');
+            });
+
+            if (selected === q.correct) {
+                score += 10;
+                document.getElementById('qScore').innerText = `Điểm: ${score}`;
+            }
+
+            const exp = document.getElementById('qExp');
+            exp.innerHTML = `<strong>Giải thích:</strong> ${q.exp}`;
+            exp.style.display = 'block';
+            document.getElementById('qNextBtn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            qIdx++;
+            if (qIdx < quizData.length) {
+                loadQuiz();
+            } else {
+                document.getElementById('qText').innerText = `🎉 Hoàn thành bài trắc nghiệm! Tổng điểm của bạn: ${score}/${quizData.length * 10}`;
+                document.getElementById('qOpts').innerHTML = '';
+                document.getElementById('qExp').style.display = 'none';
+                document.getElementById('qNextBtn').innerText = '🔄 Ôn Lại Từ Đầu';
+                document.getElementById('qNextBtn').onclick = () => {
+                    qIdx = 0; score = 0;
+                    document.getElementById('qScore').innerText = 'Điểm: 0';
+                    document.getElementById('qNextBtn').innerText = 'Câu hỏi tiếp theo ➡️';
+                    document.getElementById('qNextBtn').onclick = nextQuestion;
+                    loadQuiz();
+                };
+            }
+        }
+
+        // INIT
+        renderFc();
+        renderRecall();
+        loadQuiz();
+    </script>
+</body>
+</html>

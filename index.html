@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trung Tâm Ôn Thi Triết Học Phương Tây</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #070a12;
+            --card-bg: rgba(20, 28, 45, 0.85);
+            --border-color: rgba(255, 255, 255, 0.12);
+            --cyan: #38bdf8;
+            --purple: #c084fc;
+            --amber: #fbbf24;
+            --emerald: #34d399;
+            --text-light: #f8fafc;
+            --text-sub: #94a3b8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: radial-gradient(circle at top, #1e1b4b 0%, #070a12 70%);
+            background-attachment: fixed;
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER & NAVIGATION */
+        header {
+            background: rgba(11, 15, 25, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .title-group h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--cyan), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .title-group p {
+            font-size: 0.82rem;
+            color: var(--text-sub);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            padding: 9px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        .nav-btn.active {
+            background: var(--cyan);
+            color: #070a12;
+            font-weight: 700;
+            border-color: var(--cyan);
+        }
+
+        .open-tab-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-sub);
+            padding: 9px 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.82rem;
+            transition: 0.2s;
+        }
+
+        .open-tab-btn:hover {
+            color: #fff;
+            border-color: #fff;
+        }
+
+        /* MAIN CONTENT AREA */
+        main {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 20px auto;
+            padding: 0 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* INFO CARDS SUMMARY */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            transition: transform 0.2s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .info-card h3 {
+            font-size: 1rem;
+            color: var(--cyan);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .info-card p {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            line-height: 1.5;
+        }
+
+        /* IFRAME DISPLAY CONTAINER */
+        .preview-container {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            min-height: 650px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .preview-header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 18px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 600px;
+            border: none;
+            flex: 1;
+            background: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: var(--text-sub);
+            font-size: 0.82rem;
+            border-top: 1px solid var(--border-color);
+            background: rgba(7, 10, 18, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .header-container { flex-direction: column; align-items: flex-start; }
+            .preview-container { min-height: 500px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="title-group">
+                <h1>🏛️ TỔNG HỢP CÔNG CỤ ÔN THI TRIẾT HỌC</h1>
+                <p>Chọn phiên bản bên dưới để tải và hiển thị giao diện học tập tương ứng</p>
+            </div>
+            <div class="nav-links">
+                <button class="nav-btn active" onclick="loadPage('index1.html', this)">
+                    📄 Bản 1.0 (Đọc Đề Cương)
+                </button>
+                <button class="nav-btn" onclick="loadPage('index2.html', this)">
+                    🗂️ Bản 2.0 (3 Chế Độ Tương Tác)
+                </button>
+                <button class="nav-btn" onclick="loadPage('index3.html', this)">
+                    🚀 Bản 3.0 (Siêu Cấp & Tự Luận)
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- TỔNG QUAN CÁC PHIÊN BẢN -->
+        <div class="summary-grid">
+            <div class="info-card">
+                <h3>Phiên Bản 1.0 <a href="index1.html" target="_blank" class="open-tab-btn">🔗 Mở tab mới</a></h3>
+                <p>Giao diện đọc bài truyền thống, hỗ trợ tìm kiếm từ khóa nhanh và chế độ ẩn/hiện đáp án cho từng câu hỏi.</p>
+            </div>
+            <div class="info-card">
+                <h3>Phiên Bản 2.0 <a href="index2.html" target="_blank" class="open-tab-btn">🔗 Mở tab mới</a></h3>
+                <p>Tích hợp 3 chế độ: Flashcard lật mặt thẻ ghi nhớ, Đề cương có tích chọn "Đã thuộc" và Trắc nghiệm chấm điểm.</p>
+            </div>
+            <div class="info-card">
+                <h3>Phiên Bản 3.0 <a href="index3.html" target="_blank" class="open-tab-btn">🔗 Mở tab mới</a></h3>
+                <p>Nâng cấp siêu cấp: Sơ đồ dòng thời gian, Luyện gõ tự luận (Active Recall), Ghi chú cá nhân và Trắc nghiệm mở rộng.</p>
+            </div>
+        </div>
+
+        <!-- KHUNG HIỂN THỊ TRỰC TIẾP (IFRAME) -->
+        <div class="preview-container">
+            <div class="preview-header">
+                <span id="currentViewTitle">📌 Đang hiển thị: index1.html (Phiên bản 1.0)</span>
+                <a id="externalLink" href="index1.html" target="_blank" style="color: var(--cyan); text-decoration: none;">↗️ Xem toàn màn hình</a>
+            </div>
+            <iframe id="viewFrame" src="index1.html" title="Khung hiển thị trang ôn tập"></iframe>
+        </div>
+    </main>
+
+    <footer>
+        <p>© Hệ Thống Trực Quan Ôn Thi Triết Học Phương Tây | Đặt tất cả file index1.html, index2.html, index3.html cùng thư mục với file index.html này.</p>
+    </footer>
+
+    <script>
+        function loadPage(pageUrl, btnElement) {
+            // Cập nhật nguồn iframe
+            document.getElementById('viewFrame').src = pageUrl;
+
+            // Cập nhật liên kết ngoài
+            document.getElementById('externalLink').href = pageUrl;
+
+            // Cập nhật tiêu đề hiển thị
+            let versionName = "";
+            if (pageUrl === 'index1.html') versionName = "index1.html (Phiên bản 1.0 - Đọc Đề Cương)";
+            else if (pageUrl === 'index2.html') versionName = "index2.html (Phiên bản 2.0 - Tương Tác 3 Chế Độ)";
+            else if (pageUrl === 'index3.html') versionName = "index3.html (Phiên bản 3.0 - Siêu Cấp & Active Recall)";
+
+            document.getElementById('currentViewTitle').innerText = "📌 Đang hiển thị: " + versionName;
+
+            // Đổi trạng thái active cho nút
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+        }
+    </script>
+</body>
+</html>
